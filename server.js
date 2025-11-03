@@ -9,16 +9,17 @@ connectDB();
 
 const app = express();
 
-// ✅ Allowed frontend domains (local + production)
+// ✅ Allowed frontend domains
 const allowedOrigins = [
-  "http://localhost:5173",        // Vite Dev
-  "http://localhost:3000",        // CRA Dev
-  process.env.CLIENT_URL          // Production frontend from .env
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "https://expensetracker-frontend-faxp.onrender.com", // ✅ Add Render frontend
+  process.env.CLIENT_URL
 ];
 
 app.use(
   cors({
-    origin: function (origin, callback) {
+    origin: (origin, callback) => {
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
@@ -32,9 +33,8 @@ app.use(
 
 app.use(express.json());
 
-// ✅ API Routes
 app.use("/api/transactions", transactionRoutes);
 
-// ✅ Server Listener
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
+
